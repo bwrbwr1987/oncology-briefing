@@ -23,11 +23,11 @@ PUBMED_EMAIL = os.getenv("PUBMED_EMAIL", "oncology-bot@example.com")
 NCBI_API_KEY = os.getenv("NCBI_API_KEY", "")
 
 SEARCH_QUERIES = [
-    "oncology[MeSH] AND clinical trial[pt] AND last 1 days[dp]",
-    "targeted therapy cancer AND last 1 days[dp]",
-    "immunotherapy solid tumor AND last 1 days[dp]",
-    "HER2 breast cancer AND last 1 days[dp]",
-    "colorectal cancer treatment AND last 1 days[dp]",
+    "cancer clinical trial",
+    "targeted therapy cancer",
+    "immunotherapy tumor",
+    "HER2 breast cancer",
+    "colorectal cancer chemotherapy",
 ]
 
 MAX_ARTICLES_PER_QUERY = 5
