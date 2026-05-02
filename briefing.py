@@ -95,7 +95,7 @@ def collect_unique_articles() -> list[dict]:
             continue
         seen.update(new_pmids)
         all_articles.extend(pubmed_fetch(new_pmids))
-        time.sleep(0.35)
+        time.sleep(1.5)
         if len(all_articles) >= MAX_TOTAL_ARTICLES:
             break
     return all_articles[:MAX_TOTAL_ARTICLES]
