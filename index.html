@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Oncology Briefing</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --border:    #21262d;
+      --accent:    #58a6ff;
+      --accent2:   #3fb950;
+      --gold:      #e3b341;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --danger:    #f85149;
+      --radius:    12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      padding: 0 0 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 24px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, #1f6feb, #58a6ff);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .logo-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .refresh-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .refresh-btn:active { transform: scale(0.97); }
+
+    /* ── Main ── */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 16px 0;
+    }
+
+    /* ── Date strip ── */
+    .date-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .date-label {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--text);
+    }
+
+    .badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* ── Top Pick ── */
+    .top-pick {
+      border-color: #30363d;
+      border-left: 3px solid var(--gold);
+    }
+
+    .top-pick .card-label { color: var(--gold); }
+
+    .top-pick-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 16px;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .top-pick-summary {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #c9d1d9;
+    }
+
+    .article-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid #1f6feb44;
+      padding: 5px 10px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+    .article-link:hover { background: #1f6feb22; }
+
+    /* ── Quick Reads ── */
+    .quick-reads .card-label { color: var(--accent); }
+
+    .quick-read-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .quick-read-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .quick-read-item:first-child { padding-top: 0; }
+
+    .qr-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+
+    .qr-oneliner {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .qr-link {
+      font-size: 11px;
+      color: var(--accent);
+      text-decoration: none;
+      opacity: 0.7;
+    }
+    .qr-link:hover { opacity: 1; }
+
+    /* ── Bottom Line ── */
+    .bottom-line { border-left: 3px solid var(--accent2); }
+    .bottom-line .card-label { color: var(--accent2); }
+
+    .bottom-line-text {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #c9d1d9;
+      font-style: italic;
+    }
+
+    /* ── History ── */
+    .history-header {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 28px 0 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .history-header::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .history-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .history-item:hover { border-color: var(--accent); }
+
+    .history-date { font-size: 13px; color: var(--text); font-weight: 500; }
+    .history-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .history-arrow { color: var(--muted); font-size: 16px; }
+
+    /* ── Loading / Error ── */
+    .state-box {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .state-box .icon { font-size: 36px; margin-bottom: 12px; }
+    .state-box p { font-size: 14px; line-height: 1.6; }
+    .state-box .err { color: var(--danger); font-size: 12px; margin-top: 8px; }
+
+    .spinner {
+      width: 28px; height: 28px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Config banner ── */
+    .config-banner {
+      background: #161b22;
+      border: 1px dashed #30363d;
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .config-banner h3 { color: var(--gold); margin-bottom: 8px; font-size: 15px; }
+    .config-banner p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+    .config-banner code {
+      background: #0d1117;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">🩺</div>
+      <div>
+        <div class="logo-text">Oncology Briefing</div>
+        <div class="logo-sub">Daily Literature Review</div>
+      </div>
+    </div>
+    <button class="refresh-btn" onclick="loadBriefing()">
+      ↻ Refresh
+    </button>
+  </div>
+</header>
+
+<main>
+  <div id="app">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <p>Loading today's briefing…</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  // ── CONFIGURATION ──────────────────────────────────────────────────────────
+  // Replace these two values with your actual Supabase project details
+  const SUPABASE_URL = 'https://vrryzcrnbwhwhszsoydd.supabase.co';           // e.g. https://abcdef.supabase.co
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZycnl6Y3JuYndod2hzenNveWRkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc3MTE3NTcsImV4cCI6MjA5MzI4Nzc1N30.wPRf4ENQ0eujUEW6Ln3eUMI8M1px6iF-d4ULFhTM3zA'; // anon/public key (NOT service_role)
+  // ──────────────────────────────────────────────────────────────────────────
+
+  function needsConfig() {
+    return SUPABASE_URL === 'YOUR_SUPABASE_URL' || SUPABASE_ANON_KEY === 'YOUR_SUPABASE_ANON_KEY';
+  }
+
+  async function fetchBriefings(limit = 10) {
+    const url = `${SUPABASE_URL}/rest/v1/oncology_briefings?select=*&order=run_at.desc&limit=${limit}`;
+    const res = await fetch(url, {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+      }
+    });
+    if (!res.ok) throw new Error(`Supabase error: ${res.status} ${await res.text()}`);
+    return res.json();
+  }
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-GB', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+      timeZone: 'Asia/Bangkok'
+    });
+  }
+
+  function formatShortDate(iso) {
+    const d = new Date(iso);
+    return d.toLocaleDateString('en-GB', {
+      day: 'numeric', month: 'short', year: 'numeric',
+      timeZone: 'Asia/Bangkok'
+    });
+  }
+
+  function renderBriefing(row) {
+    const summary = typeof row.summary === 'string' ? JSON.parse(row.summary) : row.summary;
+    const date = formatDate(row.run_at);
+    const count = row.articles_count;
+
+    let html = `
+      <div class="date-strip">
+        <div class="date-label">${date}</div>
+        <div class="badge">${count} article${count !== 1 ? 's' : ''}</div>
+      </div>`;
+
+    // Top Pick
+    if (summary.top_pick) {
+      const tp = summary.top_pick;
+      html += `
+        <div class="card top-pick" style="animation-delay:0.05s">
+          <div class="card-label">🏆 Top Pick</div>
+          <div class="top-pick-title">${escHtml(tp.title)}</div>
+          <div class="top-pick-summary">${escHtml(tp.summary)}</div>
+          <a class="article-link" href="${escHtml(tp.url)}" target="_blank">
+            Read on PubMed ↗
+          </a>
+        </div>`;
+    }
+
+    // Quick Reads
+    if (summary.quick_reads && summary.quick_reads.length > 0) {
+      const items = summary.quick_reads.map(qr => `
+        <div class="quick-read-item">
+          <div class="qr-title">${escHtml(qr.title)}</div>
+          <div class="qr-oneliner">${escHtml(qr.one_liner)}</div>
+          <a class="qr-link" href="${escHtml(qr.url)}" target="_blank">PubMed ${qr.pmid} ↗</a>
+        </div>`).join('');
+      html += `
+        <div class="card quick-reads" style="animation-delay:0.1s">
+          <div class="card-label">📋 Quick Reads</div>
+          ${items}
+        </div>`;
+    }
+
+    // Bottom Line
+    if (summary.bottom_line) {
+      html += `
+        <div class="card bottom-line" style="animation-delay:0.15s">
+          <div class="card-label">💡 Bottom Line</div>
+          <div class="bottom-line-text">${escHtml(summary.bottom_line)}</div>
+        </div>`;
+    }
+
+    return html;
+  }
+
+  function renderHistory(rows) {
+    if (rows.length <= 1) return '';
+    const items = rows.slice(1).map(row => {
+      const summary = typeof row.summary === 'string' ? JSON.parse(row.summary) : row.summary;
+      return `
+        <div class="history-item" onclick="loadSingleBriefing('${row.run_id}')">
+          <div>
+            <div class="history-date">${formatShortDate(row.run_at)}</div>
+            <div class="history-meta">${row.articles_count} articles · ${escHtml(summary.bottom_line?.slice(0, 60) || '')}…</div>
+          </div>
+          <div class="history-arrow">›</div>
+        </div>`;
+    }).join('');
+    return `<div class="history-header">Past Briefings</div>${items}`;
+  }
+
+  let allRows = [];
+
+  async function loadBriefing() {
+    document.getElementById('app').innerHTML = `
+      <div class="state-box">
+        <div class="spinner"></div>
+        <p>Loading briefing…</p>
+      </div>`;
+
+    if (needsConfig()) {
+      document.getElementById('app').innerHTML = `
+        <div class="config-banner">
+          <h3>⚙️ Setup Required</h3>
+          <p>Open <code>index.html</code> in a text editor and replace<br>
+          <code>YOUR_SUPABASE_URL</code> and <code>YOUR_SUPABASE_ANON_KEY</code><br>
+          with your actual Supabase project values.</p>
+        </div>`;
+      return;
+    }
+
+    try {
+      allRows = await fetchBriefings(10);
+      if (!allRows || allRows.length === 0) {
+        document.getElementById('app').innerHTML = `
+          <div class="state-box">
+            <div class="icon">📭</div>
+            <p>No briefings yet.<br>Run the GitHub Actions workflow to generate your first one.</p>
+          </div>`;
+        return;
+      }
+      document.getElementById('app').innerHTML =
+        renderBriefing(allRows[0]) +
+        renderHistory(allRows);
+    } catch (e) {
+      document.getElementById('app').innerHTML = `
+        <div class="state-box">
+          <div class="icon">⚠️</div>
+          <p>Could not load briefing.</p>
+          <p class="err">${escHtml(e.message)}</p>
+        </div>`;
+    }
+  }
+
+  function loadSingleBriefing(runId) {
+    const row = allRows.find(r => r.run_id === runId);
+    if (!row) return;
+    document.getElementById('app').innerHTML =
+      `<button class="refresh-btn" style="margin-bottom:16px" onclick="loadBriefing()">← Back to today</button>` +
+      renderBriefing(row);
+  }
+
+  function escHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // Auto-load on open
+  loadBriefing();
+</script>
+</body>
+</html>
