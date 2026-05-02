@@ -20,6 +20,7 @@ SUPABASE_KEY      = os.environ["SUPABASE_KEY"]
 
 PUBMED_BASE  = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 PUBMED_EMAIL = os.getenv("PUBMED_EMAIL", "oncology-bot@example.com")
+NCBI_API_KEY = os.getenv("NCBI_API_KEY", "")
 
 SEARCH_QUERIES = [
     "oncology[MeSH] AND clinical trial[pt] AND last 1 days[dp]",
@@ -41,6 +42,7 @@ def pubmed_search(query: str, max_results: int = MAX_ARTICLES_PER_QUERY) -> list
         "db": "pubmed", "term": query, "retmax": max_results,
         "retmode": "json", "tool": "oncology-briefing",
         "email": PUBMED_EMAIL, "sort": "pub+date",
+        "api_key": NCBI_API_KEY,
     }
     r = requests.get(f"{PUBMED_BASE}/esearch.fcgi", params=params, timeout=15)
     r.raise_for_status()
@@ -53,6 +55,7 @@ def pubmed_fetch(pmids: list[str]) -> list[dict]:
     params = {
         "db": "pubmed", "id": ",".join(pmids), "retmode": "xml",
         "tool": "oncology-briefing", "email": PUBMED_EMAIL,
+        "api_key": NCBI_API_KEY,
     }
     r = requests.get(f"{PUBMED_BASE}/efetch.fcgi", params=params, timeout=20)
     r.raise_for_status()
