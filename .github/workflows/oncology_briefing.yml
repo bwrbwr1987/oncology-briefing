@@ -41,4 +41,5 @@ jobs:
           SUPABASE_URL:      ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY:      ${{ secrets.SUPABASE_KEY }}
           PUBMED_EMAIL:      ${{ secrets.PUBMED_EMAIL }}
+          NCBI_API_KEY:      ${{ secrets.NCBI_API_KEY }}
         run: python briefing.py
